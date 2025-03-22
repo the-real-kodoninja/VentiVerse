@@ -2,6 +2,8 @@
 
 Welcome to **VentiVerse**, the ultimate platform dedicated to the captivating world of Brittany Venti! Here, fans and followers can explore, discuss, and celebrate the unique content and personality of this influential creator.
 
+![brittany venti](https://github.com/the-real-kodoninja/VentiVerse/blob/main/MV5BNzc2YTFjOGItMWE0MS00ZGM0LWI3MTUtZGNjZGY5NDc0MGQ0XkEyXkFqcGc%40._V1_FMjpg_UX1000_.jpg)
+
 ## About Brittany Venti
 
 Brittany Venti is a prominent online personality known for her engaging content across various platforms, including Twitch, YouTube, and social media. With a distinctive style and a bold approach to discussing contemporary issues, Brittany has garnered a dedicated following. Here are some key details about her:
