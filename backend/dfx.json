@@ -1,0 +1,16 @@
+{
+    "canisters": {
+      "main": { "main": "src/Main.mo", "type": "motoko" },
+      "user": { "main": "src/User.mo", "type": "motoko" },
+      "post": { "main": "src/Post.mo", "type": "motoko" },
+      "nft": { "main": "src/NFT.mo", "type": "motoko" },
+      "store": { "main": "src/Store.mo", "type": "motoko" },
+      "event": { "main": "src/Event.mo", "type": "motoko" },
+      "nimbus": { "main": "src/Nimbus.mo", "type": "motoko" },
+      "assets": { "source": ["assets"], "type": "assets" }
+    },
+    "defaults": {
+      "build": { "packtool": "" }
+    },
+    "version": 1
+  }
