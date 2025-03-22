@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom autumn theme */
+:root {
+  --light-bg: #F5E8C7;
+  --light-text: #4A2C1A;
+  --light-accent1: #E07A5F;
+  --light-accent2: #D9A404;
+  --dark-bg: #2F4A3A;
+  --dark-text: #E8DAB2;
+  --dark-accent1: #A7333F;
+  --dark-accent2: #C06E52;
+}
+
+/* Light mode default */
+body {
+  @apply bg-[var(--light-bg)] text-[var(--light-text)];
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  body {
+    @apply bg-[var(--dark-bg)] text-[var(--dark-text)];
+  }
+}
+
+/* Mobile app-like styles */
+.mobile-nav {
+  @apply fixed bottom-0 left-0 right-0 bg-[var(--light-accent1)] dark:bg-[var(--dark-accent1)] flex justify-around p-2 md:hidden;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-in;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
