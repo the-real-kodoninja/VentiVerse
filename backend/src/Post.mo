@@ -8,7 +8,6 @@ import VentiCoin "canister:venticoin";
 import Nimbus "canister:nimbus";
 
 actor Post {
-  // Post structure with premium content
   type Post = {
     id: Nat;
     author: Principal;
@@ -16,161 +15,176 @@ actor Post {
     category: Text;
     timestamp: Time.Time;
     isPremium: Bool;
-    price: Nat; // VTC cost to unlock
+    price: Nat;
+    likes: [Principal];
+    media: ?{ url: Text; isVideo: Bool }; // Photo or video
+    isHidden: Bool;
+    isNSFW: Bool;
+    reports: Nat;
   };
 
-  // Comment structure
   type Comment = {
     id: Nat;
     postId: Nat;
     author: Principal;
     content: Text;
     timestamp: Time.Time;
+    emoji: ?Text; // Emoji or GIF URL
   };
 
-  // Message structure
   type Message = {
     id: Nat;
     sender: Principal;
     recipient: Principal;
     content: Text;
     timestamp: Time.Time;
-    isPriority: Bool; // Priority messages cost VTC
+    isPriority: Bool;
+    emoji: ?Text;
   };
 
-  // Storage
   var posts = Vec.Vector<Post>();
   var comments = Vec.Vector<Comment>();
   var messages = Vec.Vector<Message>();
+  var blockedUsers = HashMap.HashMap<Principal, [Principal]>(0, Principal.equal, Principal.hash);
+  var verifiedUsers = HashMap.HashMap<Principal, Bool>(0, Principal.equal, Principal.hash);
   var nextPostId: Nat = 0;
   var nextCommentId: Nat = 0;
   var nextMessageId: Nat = 0;
 
+  let adminPrincipal = Principal.fromText("aaaaa-aa"); // Placeholder admin
+
   // --- Post Functions ---
 
-  // Create a standard or premium post
-  public shared(msg) func createPost(content: Text, category: Text, isPremium: Bool, price: Nat) : async Nat {
+  public shared(msg) func createPost(content: Text, category: Text, isPremium: Bool, price: Nat, mediaUrl: ?Text, isVideo: Bool, isNSFW: Bool) : async Nat {
     let id = nextPostId;
     posts.add({
-      id;
-      author = msg.caller;
-      content;
-      category;
-      timestamp = Time.now();
-      isPremium;
-      price
+      id; author = msg.caller; content; category; timestamp = Time.now(); isPremium; price;
+      likes = []; media = ?{ url = switch mediaUrl { case (?url) url; case null "" }; isVideo };
+      isHidden = false; isNSFW; reports = 0
     });
     nextPostId += 1;
-    await VentiCoin.mint(msg.caller, 10); // Reward 10 VTC for posting
+    await VentiCoin.mint(msg.caller, 10);
     id
   };
 
-  // AI-generated post by Nimbus.ai
   public shared(msg) func createAIPost(category: Text) : async Nat {
-    let aiContent = await Nimbus.analyzePost(category # " trending topic"); // Simulated AI call
+    let response = await http_request("https://api.huggingface.co/models/gpt2", "POST", category); // Placeholder NLP call
     let id = nextPostId;
     posts.add({
-      id;
-      author = msg.caller;
-      content = "Nimbus.ai: " # aiContent;
-      category;
-      timestamp = Time.now();
-      isPremium = false;
-      price = 0
+      id; author = msg.caller; content = response; category; timestamp = Time.now();
+      isPremium = false; price = 0; likes = []; media = null; isHidden = false; isNSFW = false; reports = 0
     });
     nextPostId += 1;
-    await VentiCoin.mint(msg.caller, 15); // Bonus 15 VTC for AI collaboration
+    await VentiCoin.mint(msg.caller, 15);
     id
   };
 
-  // Unlock premium post
-  public shared(msg) func unlockPost(id: Nat) : async Bool {
+  public shared(msg) func likePost(id: Nat) : async Bool {
     switch (Vec.get(posts, id)) {
       case (?post) {
-        if (post.isPremium) {
-          let success = await VentiCoin.transfer(post.author, post.price);
-          if (success) { true } else { false }
-        } else { true }
+        if (Vec.contains(post.likes, msg.caller, Principal.equal)) return false;
+        let updatedLikes = Vec.append(post.likes, Vec.fromArray([msg.caller]));
+        posts.put(id, { post with likes = updatedLikes });
+        await VentiCoin.mint(post.author, 2); // 2 VTC per like
+        true
       };
       case null { false };
     }
   };
 
-  // Query posts by category
+  public shared(msg) func reportPost(id: Nat) : async Bool {
+    switch (Vec.get(posts, id)) {
+      case (?post) {
+        posts.put(id, { post with reports = post.reports + 1 });
+        if (post.reports >= 5 and msg.caller == adminPrincipal) {
+          posts.put(id, { post with isHidden = true });
+        };
+        true
+      };
+      case null { false };
+    }
+  };
+
+  public shared(msg) func hidePost(id: Nat) : async Bool {
+    switch (Vec.get(posts, id)) {
+      case (?post) {
+        if (msg.caller == post.author or msg.caller == adminPrincipal) {
+          posts.put(id, { post with isHidden = true });
+          true
+        } else { false }
+      };
+      case null { false };
+    }
+  };
+
   public query func getPosts(category: Text) : async [Post] {
-    Vec.toArray(Vec.filter(posts, func (p: Post) : Bool { p.category == category }))
+    Vec.toArray(Vec.filter(posts, func (p: Post) : Bool { p.category == category and not p.isHidden }))
+  };
+
+  public query func getUserFeed(user: Principal) : async [Post] {
+    Vec.toArray(Vec.filter(posts, func (p: Post) : Bool { p.author == user and not p.isHidden }))
+  };
+
+  public query func getLikes(id: Nat) : async [Principal] {
+    switch (Vec.get(posts, id)) { case (?post) post.likes; case null [] }
   };
 
   // --- Comment Functions ---
 
-  public shared(msg) func addComment(postId: Nat, content: Text) : async Nat {
+  public shared(msg) func addComment(postId: Nat, content: Text, emoji: ?Text) : async Nat {
     let id = nextCommentId;
-    comments.add({
-      id;
-      postId;
-      author = msg.caller;
-      content;
-      timestamp = Time.now()
-    });
+    comments.add({ id; postId; author = msg.caller; content; timestamp = Time.now(); emoji });
     nextCommentId += 1;
-    await VentiCoin.mint(msg.caller, 5); // 5 VTC for commenting
-    // AI-suggested comment reward
-    let aiSuggestion = await Nimbus.analyzePost(content);
-    if (Text.contains(aiSuggestion, "Great insight")) {
-      await VentiCoin.mint(msg.caller, 2); // Bonus 2 VTC for quality
-    };
+    await VentiCoin.mint(msg.caller, 5);
     id
-  };
-
-  public query func getComments(postId: Nat) : async [Comment] {
-    Vec.toArray(Vec.filter(comments, func (c: Comment) : Bool { c.postId == postId }))
   };
 
   // --- Messaging Functions ---
 
-  public shared(msg) func sendMessage(recipient: Principal, content: Text, isPriority: Bool) : async Nat {
+  public shared(msg) func sendMessage(recipient: Principal, content: Text, isPriority: Bool, emoji: ?Text) : async Nat {
+    let blocked = switch (blockedUsers.get(recipient)) { case (?list) list; case null [] };
+    if (Vec.contains(blocked, msg.caller, Principal.equal)) return 0;
     let id = nextMessageId;
-    if (isPriority) {
-      let success = await VentiCoin.transfer(recipient, 10); // 10 VTC for priority
-      if (not success) return 0;
-    };
-    messages.add({
-      id;
-      sender = msg.caller;
-      recipient;
-      content;
-      timestamp = Time.now();
-      isPriority
-    });
+    if (isPriority) await VentiCoin.transfer(recipient, 10);
+    messages.add({ id; sender = msg.caller; recipient; content; timestamp = Time.now(); isPriority; emoji });
     nextMessageId += 1;
     id
   };
 
-  // AI-assisted message drafting
-  public shared(msg) func sendAIMessage(recipient: Principal, topic: Text) : async Nat {
-    let aiContent = await Nimbus.postChat("Draft a message about " # topic);
-    let id = nextMessageId;
-    messages.add({
-      id;
-      sender = msg.caller;
-      recipient;
-      content = aiContent;
-      timestamp = Time.now();
-      isPriority = false
-    });
-    nextMessageId += 1;
-    id
+  public shared(msg) func blockUser(user: Principal) : async () {
+    let current = switch (blockedUsers.get(msg.caller)) { case (?list) list; case null [] };
+    blockedUsers.put(msg.caller, Vec.append(current, Vec.fromArray([user])));
   };
 
-  public query func getMessages(recipient: Principal) : async [Message] {
-    Vec.toArray(Vec.filter(messages, func (m: Message) : Bool { m.recipient == recipient }))
+  // --- Admin & CMS ---
+
+  public shared(msg) func verifyUser(user: Principal) : async Bool {
+    if (msg.caller != adminPrincipal) return false;
+    verifiedUsers.put(user, true);
+    true
   };
 
-  // --- Helper Functions ---
+  public query func isVerified(user: Principal) : async Bool {
+    switch (verifiedUsers.get(user)) { case (?v) v; case null false }
+  };
 
-  // Simulate AI moderation (basic)
-  public shared func moderateContent(content: Text) : async Bool {
-    let analysis = await Nimbus.analyzePost(content);
-    not Text.contains(analysis, "spam") and not Text.contains(analysis, "toxic")
+  // --- VTC Functions ---
+
+  public shared(msg) func donateVTC(to: Principal, amount: Nat) : async Bool {
+    await VentiCoin.transfer(to, amount)
+  };
+
+  public shared(msg) func giftVTC(to: Principal, amount: Nat) : async Bool {
+    await VentiCoin.transfer(to, amount)
+  };
+
+  public shared(msg) func mintVTC(amount: Nat) : async Bool {
+    if (msg.caller != adminPrincipal) return false;
+    await VentiCoin.mint(msg.caller, amount)
+  };
+
+  // Placeholder HTTP outcall (requires IC canister upgrade)
+  func http_request(url: Text, method: Text, body: Text) : async Text {
+    "AI-generated content" // Replace with real outcall
   };
 };

@@ -11,8 +11,7 @@ Brittany Venti is a prominent online personality known for her engaging content 
 - **Real Name:** Brittany Dier
 - **Date of Birth:** February 14, 1997
 - **Location:** Texas, United States
-- **Platforms:** 
-  - [Twitch](https://www.twitch.tv/brittanyventi) (inactive)
+- **Platforms:** - [Twitch](https://www.twitch.tv/brittanyventi) (inactive)
   - [YouTube](https://www.youtube.com/@BrittanyVenti)
   - [Twitter](https://twitter.com/BrittanyVenti)
   - [Instagram](https://www.instagram.com/brittanywears/)
@@ -30,7 +29,7 @@ Brittany Venti has become a beloved figure for several reasons:
 
 4. **Community:** Brittany has cultivated a strong community of fans who share her interests and values. VentiVerse serves as a space for these fans to connect, share content, and support one another.
 
-5. **Cultural Commentary:** Brittany often provides insights into pop culture and politics, making her a relevant voice in today’s digital landscape. Her unique perspective attracts those who appreciate a blend of humor and critical thinking.
+5. **Cultural Commentary:** Brittany often provides insights into pop culture and politics, making her a relevant voice in todayâ€™s digital landscape. Her unique perspective attracts those who appreciate a blend of humor and critical thinking.
 
 ## Features of VentiVerse
 
@@ -60,7 +59,7 @@ Are you ready to dive into the world of Brittany Venti? Join us in celebrating h
 
 1. **Sign Up:** Create an account to access all features of VentiVerse.
 2. **Participate:** Join discussions, share your thoughts, and connect with other fans.
-3. **Share Content:** Contribute your own content, whether it’s fan art, videos, or articles about Brittany.
+3. **Share Content:** Contribute your own content, whether itâ€™s fan art, videos, or articles about Brittany.
 4. **Stay Updated:** Follow us on social media for the latest news and updates about Brittany and VentiVerse.
 
 ## Invitation to Brittany Venti
@@ -74,3 +73,75 @@ VentiVerse is more than just a platform; it's a community for those who admire B
 ---
 
 **Disclaimer:** This platform is a fan-made initiative and is not officially affiliated with Brittany Venti. All content is created for entertainment and community purposes.
+
+---
+
+# VentiVerse
+
+**VentiVerse** is the ultimate decentralized social network and DeFi platform for Brittany Venti fans, built on the Internet Computer (IC) with Motoko and React. Powered by **VentiCoin (VTC)**, it blends social engagement, NFT creativity, and financial empowerment in a stunning autumn-themed UI.
+
+## What's New?
+
+-   **Enhanced Social Features:** Likes, shares, reports, blocks, and a comprehensive CMS give users full control, with advanced admin tools for content moderation.
+-   **Increased Engagement:** Verified badges, a top contributors leaderboard, and VTC donations/gifting significantly boost community dynamics.
+-   **Rich Media Integration:** Emoji, GIFs, photos, and videos enrich posts and messages, making interactions more vibrant.
+-   **Advanced Privacy Controls:** Hidden posts and customizable NSFW settings cater to user preferences, ensuring a comfortable experience.
+-   **Next-Level UI/UX:** The unique autumn theme, mobile-friendly navigation, and smooth animations provide a professional and cutting-edge user experience.
+-   **DeFi & VentiCoin Integration:** Users can now stake, lend, and trade VTC, with admin functionalities for coin minting and gifting.
+-   **NFT Marketplace:** A robust NFT marketplace allows for minting Brittany’s originals and fan derivatives, complete with dynamic traits.
+-   **Nimbus.ai Integration:** AI-powered features generate posts, suggest comments, and moderate content, enhancing user interaction and platform management.
+
+## Features
+
+-   **Social Network:**
+    -   Feed, Explore, and Fandom hubs with posts, comments, and likes.
+    -   Messaging with emoji, GIFs, photo/video uploads, and priority VTC options.
+    -   Like, share, report, block, and hide post functionalities.
+    -   Search page and user-specific feeds.
+-   **DeFi & VentiCoin:**
+    -   Stake, lend, and trade VTC; donate, gift, or mint coins (admin).
+    -   Integrated wallet and top contributors leaderboard.
+-   **NFTs:** Mint Brittany’s originals or fan derivatives, with dynamic traits.
+-   **AI (Nimbus.ai):** Generates posts, suggests comments, and moderates content.
+-   **CMS & Admin:** Verified badges, content moderation, and NSFW settings.
+-   **UI:** Autumn-inspired light/dark mode, mobile app-like design with animations.
+
+## Setup
+
+1.  **Install DFINITY SDK:**
+    ```bash
+    sh -ci "$(curl -fsSL [https://sdk.dfinity.org/install.sh](https://sdk.dfinity.org/install.sh))"
+    ```
+2.  **Start Local IC:**
+    ```bash
+    dfx start --background
+    ```
+3.  **Deploy Backend:**
+    ```bash
+    cd backend && dfx deploy
+    ```
+4.  **Install Frontend Dependencies:**
+    ```bash
+    cd frontend && npm install
+    ```
+5.  **Run Frontend:**
+    ```bash
+    npm run dev
+    ```
+
+## Development Notes
+
+-   **X Sync:** Replace placeholder OAuth in `Login.tsx` with real X API keys.
+-   **AI Posts:** Configure HTTPS outcalls in `Post.mo` for a real NLP service (e.g., Hugging Face).
+-   **Mobile Testing:** Use BrowserStack or similar for responsiveness checks.
+-   **Assets:** Add `venti_logo.png` and `default_avatar.jpg` to `backend/assets/`.
+
+## Contributing
+
+-   Enhance AI with Brittany’s persona.
+-   Add real-time notifications.
+-   Integrate a full CMS dashboard for admins.
+
+## Disclaimer
+
+This is a fan-made platform, not officially affiliated with Brittany Venti.
