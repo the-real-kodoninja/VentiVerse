@@ -1,8 +1,8 @@
 # VentiVerse
 
-![brittany venti](https://github.com/the-real-kodoninja/VentiVerse/blob/main/MV5BNzc2YTFjOGItMWE0MS00ZGM0LWI3MTUtZGNjZGY5NDc0MGQ0XkEyXkFqcGc%40._V1_FMjpg_UX1000_.jpg)
-
 Welcome to **VentiVerse**, the ultimate platform dedicated to the captivating world of Brittany Venti! This fully functional, modern social network is built on Motoko and designed specifically for her fans. Here, you can explore, discuss, and celebrate the unique content and personality of this influential creator.
+
+![brittany venti](https://github.com/the-real-kodoninja/VentiVerse/blob/main/MV5BNzc2YTFjOGItMWE0MS00ZGM0LWI3MTUtZGNjZGY5NDc0MGQ0XkEyXkFqcGc%40._V1_FMjpg_UX1000_.jpg)
 
 ## About Brittany Venti
 
