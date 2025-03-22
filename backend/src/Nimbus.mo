@@ -8,9 +8,10 @@ actor Nimbus {
   var chats = Vec.Vector<ChatMessage>();
 
   public shared(msg) func postChat(content: Text) : async Text {
-    chats.add({ sender = msg.caller; content; timestamp = Time.now() });
-    "Nimbus.ai: Interesting take! Here’s a related thought: " # content // Simulated AI
-  };
+  chats.add({ sender = msg.caller; content; timestamp = Time.now() });
+  await VentiCoin.mint(msg.caller, 5); // 5 VTC for chat activity
+  "Nimbus.ai: " # content
+};
 
   public query func getChats() : async [ChatMessage] {
     Vec.toArray(chats)
