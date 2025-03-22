@@ -1,5 +1,4 @@
-
-#VentiVerse
+VentiVerse
 ==========
 
 Welcome to **VentiVerse**, the ultimate decentralized social network and DeFi platform dedicated to Brittany Venti and her fans. Built on the Internet Computer (IC) using Motoko, React (for the web), and React Native (for the mobile app), VentiVerse is powered by **VentiCoin (VTC)**. It seamlessly blends social engagement, NFT creativity, and financial empowerment within a stunning autumn-themed UI. Whether you’re on the web or mobile app, VentiVerse is your hub to connect, create, and celebrate Brittany Venti’s world.
