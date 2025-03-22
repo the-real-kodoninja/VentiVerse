@@ -17,6 +17,11 @@ Brittany Venti is a prominent online personality known for her engaging content 
   - [Instagram](https://www.instagram.com/brittanywears/)
 - **Content Focus:** Gaming, commentary, political discussions, and lifestyle vlogs
 
+### Before we coninue ler's address the mission
+
+- **Goal:** Obviously I am the founder, creator, moderator of the code, nimbus.ai, but i wish to have Brittany Dier be the sites admin, owner, takes equity and profit in her contribution. A goal is to prome this with my own money to see how big i can make it.
+- **Profit:** I won't be taking any profit intill Brittany Dier joins, hopefully, and takes control of VentiVerse, for it was created for her as a slightly obsessed fan.
+
 ### Why Brittany Venti?
 
 Brittany Venti has become a beloved figure for several reasons:
