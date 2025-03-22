@@ -110,6 +110,8 @@ VentiVerse is more than just a platform; it's a community for those who admire B
 -   **AI (Nimbus.ai):** Generates posts, suggests comments, and moderates content.
 -   **CMS & Admin:** Verified badges, content moderation, and NSFW settings.
 -   **UI:** Autumn-inspired light/dark mode, mobile app-like design with animations.
+-   **App:** app features
+-   **Game:** yes im building a full on game like kimoji coming soon
 
 ## Setup
 
